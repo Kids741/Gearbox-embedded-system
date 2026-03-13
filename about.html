@@ -1,62 +1,212 @@
-<section id="about">
-  <div class="container">
-    <h1>About Me</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Dennis Kidake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-start: #f4f8ff;
+      --bg-end: #dfeef5;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --card-border: rgba(24, 94, 110, 0.14);
+      --accent: #0d6a7c;
+      --accent-soft: #55b7a1;
+      --highlight: #ffb347;
+      --text: #14222f;
+      --muted: #4c5b70;
+    }
 
-    <p>
-      Hello! I'm <strong>Dennis Kidake</strong>, a 5th year medical student at the 
-      University of Nairobi with a deep passion for technology, healthcare innovation, 
-      and building solutions that improve patient care.
-    </p>
+    * {
+      box-sizing: border-box;
+    }
 
-    <p>
-      Alongside my medical training, I am also a <strong>software developer</strong> 
-      with experience in modern web technologies. I work primarily with the 
-      <strong>MERN stack (MongoDB, Express, React, Node.js)</strong> and Python 
-      frameworks to build scalable applications and digital tools.
-    </p>
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      line-height: 1.75;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      min-height: 100vh;
+      padding: 0 1.2rem 3rem;
+    }
 
-    <p>
-      I am currently pursuing <strong>Embedded Systems Engineering at Gearbox</strong>, 
-      where I am expanding my skills in hardware development, IoT systems, and 
-      intelligent devices. My goal is to combine medicine, artificial intelligence, 
-      and embedded technology to develop impactful healthcare innovations.
-    </p>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(85, 183, 161, 0.2), transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(255, 179, 71, 0.22), transparent 50%),
+        radial-gradient(circle at 55% 80%, rgba(13, 106, 124, 0.15), transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
 
-    <p>
-      My interests include:
-    </p>
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding-top: 3rem;
+    }
 
-    <ul>
-      <li>Healthcare technology and digital health solutions</li>
-      <li>Artificial Intelligence in medicine</li>
-      <li>Medical device innovation and embedded systems</li>
-      <li>Clinical decision support systems</li>
-      <li>Building scalable software for healthcare</li>
-    </ul>
+    header {
+      text-align: center;
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: 3rem 2.5rem 2.5rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 45px rgba(15, 32, 61, 0.12);
+    }
 
-    <p>
-      I am particularly interested in solving real-world healthcare problems through 
-      technology — from clinical education platforms to AI-powered diagnostic tools 
-      and smart medical devices.
-    </p>
+    header h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 4vw, 2.9rem);
+      color: var(--accent);
+    }
 
-    <p>
-      When I'm not coding or studying medicine, I enjoy working on new startup ideas, 
-      collaborating with innovators, and exploring how technology can make healthcare 
-      more accessible, efficient, and intelligent.
-    </p>
+    header p {
+      margin: 0.6rem 0 0;
+      color: var(--muted);
+    }
 
-    <p>
-      If you're interested in collaborating on healthcare innovation, research, or 
-      technology projects, feel free to connect.
-    </p>
+    nav {
+      margin-top: 1.8rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-    <h2>Quick Facts</h2>
-     <ul>
-      <li>5th Year Medical Student – University of Nairobi</li>
-      <li>Software Developer (MERN Stack & Python)</li>
-      <li>Embedded Systems Trainee – Gearbox</li>
-      <li>Passionate about AI, Medical Devices, and Digital Health</li>
-     </ul>
-  </div>
-</section>
+    nav a {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      background: rgba(13, 106, 124, 0.05);
+    }
+
+    nav a:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    section {
+      background: var(--card-bg);
+      border-radius: 1.25rem;
+      padding: 2rem 2.25rem;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 22px 38px rgba(10, 32, 61, 0.08);
+      margin-bottom: 1.75rem;
+      border-left: 6px solid var(--accent);
+    }
+
+    section:nth-of-type(2n) {
+      border-left-color: var(--highlight);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: 1.8rem;
+    }
+
+    ul {
+      margin: 0.7rem 0 0.4rem 1.2rem;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .pill {
+      background: rgba(13, 106, 124, 0.08);
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(13, 106, 124, 0.15);
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <h1>Dennis Kidake</h1>
+      <p>Medical student · Software developer · Embedded systems trainee</p>
+      <nav>
+        <a href="index.html">Curriculum</a>
+        <a href="week1.html">Week 1 Journal</a>
+      </nav>
+    </header>
+
+    <section>
+      <h2>About Me</h2>
+      <p>
+        Hello! I'm <strong>Dennis Kidake</strong>, a fifth-year medical student at the University of Nairobi with a deep
+        passion for healthcare innovation. I believe the intersection of medicine, software, and embedded systems unlocks
+        a new wave of patient-focused solutions.
+      </p>
+      <p>
+        Alongside clinical training, I build applications with the <strong>MERN stack</strong> and Python frameworks,
+        and I am expanding into hardware through the <strong>Gearbox Embedded Systems Academy</strong>. My goal is to
+        merge clinical insight with intelligent devices and AI-driven diagnostics.
+      </p>
+    </section>
+
+    <section>
+      <h2>Focus Areas</h2>
+      <ul>
+        <li>Healthcare technology and digital health platforms.</li>
+        <li>Artificial intelligence and decision support in medicine.</li>
+        <li>Embedded systems for smart medical devices.</li>
+        <li>Clinical education tools and scalable healthcare software.</li>
+      </ul>
+      <p>
+        I gravitate toward projects that address real-world challenges—whether it's creating accessible diagnostic tools,
+        prototyping IoT devices, or streamlining medical workflows with software.
+      </p>
+    </section>
+
+    <section>
+      <h2>Beyond the Lab</h2>
+      <p>
+        When I'm not coding or on clinical rotation, you'll find me sketching startup ideas, collaborating with fellow
+        innovators, or studying how emerging tech can make healthcare more equitable. Collaboration opportunities around
+        research, product design, or embedded health tech are always welcome.
+      </p>
+    </section>
+
+    <section>
+      <h2>Quick Facts</h2>
+      <div class="facts">
+        <div class="pill">5th Year Medical Student · UoN</div>
+        <div class="pill">MERN & Python Developer</div>
+        <div class="pill">Embedded Systems Trainee · Gearbox</div>
+        <div class="pill">AI & Digital Health Enthusiast</div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Dennis Kidake</p>
+    </footer>
+  </main>
+</body>
+</html>
