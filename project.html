@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart IV Assist and Monitoring Device</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b2a4a;
+      --navy-deep: #071b30;
+      --blue: #0f4c81;
+      --blue-soft: #1f6fb2;
+      --sky: #e8f2fb;
+      --mint: #4bb4a8;
+      --amber: #f2a93b;
+      --paper: #ffffff;
+      --ink: #102033;
+      --muted: #4b5b73;
+      --border: rgba(11, 42, 74, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Figtree", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top, #f6fbff, #d9e9f8);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(75, 180, 168, 0.2), transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(242, 169, 59, 0.18), transparent 50%),
+        radial-gradient(circle at 65% 85%, rgba(15, 76, 129, 0.12), transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2.5rem 1.2rem 4rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .topbar a {
+      text-decoration: none;
+      color: var(--blue);
+      font-weight: 600;
+      border: 1px solid var(--blue);
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(15, 76, 129, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .topbar a:hover {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .hero {
+      background: var(--paper);
+      border-radius: 1.6rem;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px rgba(7, 27, 48, 0.12);
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.6rem, 5vw, 3.6rem);
+      margin: 0 0 0.6rem;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+    }
+
+    .hero p {
+      margin: 0.5rem 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero .meta {
+      display: grid;
+      gap: 0.4rem;
+      font-size: 0.98rem;
+      color: var(--muted);
+    }
+
+    .hero .callout {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: #fff;
+      border-radius: 1.2rem;
+      padding: 1.8rem;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .hero .callout h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.9rem;
+      margin: 0 0 0.6rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero .callout p {
+      color: #e8f2fb;
+      margin: 0;
+    }
+
+    .hero-image {
+      margin: 0;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 40px rgba(7, 27, 48, 0.1);
+      background: var(--paper);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .hero-image.centered {
+      max-width: 720px;
+      margin: 1.5rem auto 0;
+    }
+
+    .hero-image.small {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .hero-image.small img {
+      max-height: 360px;
+      object-position: center;
+    }
+
+    .hero-image.clear img {
+      filter: contrast(1.05) saturate(1.08) sharpen(0);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      padding: 1.6rem;
+      box-shadow: 0 20px 40px rgba(7, 27, 48, 0.08);
+    }
+
+    .card h3 {
+      margin: 0 0 0.6rem;
+      color: var(--blue);
+      font-size: 1.2rem;
+    }
+
+    .card ul {
+      margin: 0.6rem 0 0 1.1rem;
+      color: var(--muted);
+    }
+
+    .section {
+      margin-top: 2.5rem;
+    }
+
+    .section h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      margin: 0 0 1rem;
+    }
+
+    .section p {
+      margin: 0.6rem 0;
+      color: var(--muted);
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      background: rgba(15, 76, 129, 0.1);
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid rgba(15, 76, 129, 0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.7rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--navy);
+      font-weight: 700;
+      background: rgba(15, 76, 129, 0.06);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 1rem;
+    }
+
+    .milestone {
+      background: rgba(15, 76, 129, 0.08);
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(15, 76, 129, 0.15);
+    }
+
+    .milestone strong {
+      color: var(--navy);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding: 2rem 1.6rem;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div>
+        <strong>Smart IV Assist and Monitoring Device</strong>
+      </div>
+      <a href="index.html">Back to Curriculum</a>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h1>Smart IV Assist and Monitoring Device</h1>
+        <p>Improving vein access. Detecting complications early.</p>
+        <div class="meta">
+          <div><strong>Submitted by:</strong> Dennis Kidake</div>
+          <div><strong>Program:</strong> Embedded Systems - Gearbox Academy</div>
+          <div><strong>Date:</strong> April 2026</div>
+          <div><strong>Submission type:</strong> Final Project Proposal</div>
+        </div>
+        <div class="badge-row">
+          <span class="badge">Wearable IV assist</span>
+          <span class="badge">Pain modulation</span>
+          <span class="badge">Real-time monitoring</span>
+          <span class="badge">Nurse alerts</span>
+        </div>
+      </div>
+      <figure class="hero-image small clear">
+        <img src="image1.png" alt="Smart IV Assist wearable device on a patient arm">
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2>1. Executive Summary</h2>
+      <p>The Smart IV Assist and Monitoring Device is a wearable embedded system designed to improve first-stick success rates, reduce insertion pain, and detect complications early. It combines active vein dilation, Gate Control Theory pain modulation, continuous monitoring, and wireless nurse alerting.</p>
+      <p>The device integrates a heating module, vibration motor, and compression pad to prepare veins before cannulation. After insertion, impedance, pressure, and temperature sensing detect early signs of infiltration or phlebitis, triggering LED and mobile alerts. Bluetooth sends data to a nurse app and a hospital dashboard.</p>
+      <p>This project is the capstone of the Embedded Systems program at Gearbox Academy, Nairobi, and is the foundation for a future health-tech venture focused on East African hospitals.</p>
+    </section>
+
+    <section class="section">
+      <h2>2. The Clinical Challenge</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Global pain points</h3>
+          <ul>
+            <li>First-attempt IV failure rates of 20 to 40 percent.</li>
+            <li>IV insertion is among the most painful routine procedures.</li>
+            <li>Infiltration affects up to 50 percent of peripheral IV lines.</li>
+            <li>Manual monitoring is time-consuming and inconsistent.</li>
+            <li>Phlebitis and occlusion increase material costs.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Kenyan context</h3>
+          <ul>
+            <li>High patient-to-nurse ratios and limited monitoring tools.</li>
+            <li>Limited access to vein visualization equipment.</li>
+            <li>Hard-to-cannulate patients are common in public hospitals.</li>
+            <li>No affordable local solution covering insertion and monitoring.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. Proposed Solution</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Pre-insertion assistance</h3>
+          <ul>
+            <li>Heating module for controlled vasodilation.</li>
+            <li>Vibration motor to enhance blood flow and reduce pain.</li>
+            <li>Compression pad to improve vein fill and turgor.</li>
+            <li>OLED screen to guide preparation steps.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Pain modulation</h3>
+          <ul>
+            <li>Activates A-beta fibers with gentle vibration.</li>
+            <li>Inhibits A-delta and C-fiber pain signals.</li>
+            <li>Drug-free reduction of insertion pain.</li>
+            <li>Based on Gate Control Theory and vibration analgesia.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Post-insertion monitoring</h3>
+          <ul>
+            <li>Impedance and pressure sensing for infiltration detection.</li>
+            <li>Temperature monitoring for early phlebitis signs.</li>
+            <li>Tri-color LED for ward visibility.</li>
+            <li>BLE alerts to the nurse mobile app.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. System Architecture</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>System layer</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Device (hardware)</td>
+            <td>Wearable arm device with sensors, actuators, OLED display, and Bluetooth module.</td>
+          </tr>
+          <tr>
+            <td>Mobile app</td>
+            <td>Nurse-facing app showing IV status, alerts, and history.</td>
+          </tr>
+          <tr>
+            <td>Cloud server</td>
+            <td>Stores IV session data, alert logs, and analytics.</td>
+          </tr>
+          <tr>
+            <td>Web dashboard</td>
+            <td>Ward and hospital-level oversight for administrators.</td>
+          </tr>
+        </tbody>
+      </table>
+      <figure class="hero-image centered">
+        <img src="project.png" alt="Smart IV Assist system architecture and related visuals">
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2>5. Hardware Components and Specs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Description</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ESP32 microcontroller</td>
+            <td>Dual-core 240MHz with Wi-Fi and Bluetooth</td>
+            <td>Central control and wireless communication</td>
+          </tr>
+          <tr>
+            <td>OLED display (SSD1306)</td>
+            <td>128x64 I2C</td>
+            <td>Status output and user interface</td>
+          </tr>
+          <tr>
+            <td>MLX90614 IR sensor</td>
+            <td>Non-contact temperature sensor</td>
+            <td>Skin temperature monitoring</td>
+          </tr>
+          <tr>
+            <td>AD5933 impedance IC</td>
+            <td>Precision impedance measurement</td>
+            <td>Detects infiltration and swelling</td>
+          </tr>
+          <tr>
+            <td>PTC heating element</td>
+            <td>Self-regulating heater</td>
+            <td>Controlled vein dilation via warmth</td>
+          </tr>
+          <tr>
+            <td>ERM vibration motor</td>
+            <td>Coin motor around 100Hz</td>
+            <td>Blood flow enhancement and pain modulation</td>
+          </tr>
+          <tr>
+            <td>Compression pad</td>
+            <td>Pneumatic micro-pump</td>
+            <td>Improves vein fill and turgor</td>
+          </tr>
+          <tr>
+            <td>RGB LED indicator</td>
+            <td>Green, amber, red</td>
+            <td>Visual alert system</td>
+          </tr>
+          <tr>
+            <td>LiPo battery + BMS</td>
+            <td>3.7V rechargeable</td>
+            <td>8 to 12 hour power supply</td>
+          </tr>
+          <tr>
+            <td>One-button interface</td>
+            <td>Debounced tactile control</td>
+            <td>Simple nurse operation</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>6. Software Architecture</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Device firmware</h3>
+          <ul>
+            <li>Real-time sensor polling for temperature and impedance.</li>
+            <li>PWM control for heating and vibration with safety cutoffs.</li>
+            <li>Alert thresholds with configurable sensitivity.</li>
+            <li>BLE GATT server for mobile communication.</li>
+            <li>OLED status state machine.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Mobile application</h3>
+          <ul>
+            <li>BLE pairing and real-time streaming.</li>
+            <li>Per-patient session tracking and timestamps.</li>
+            <li>Push alerts for warning and critical states.</li>
+            <li>History view with complication logs.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Web dashboard</h3>
+          <ul>
+            <li>Ward overview of active IV sessions.</li>
+            <li>REST API backend syncing from cloud server.</li>
+            <li>Alert history and clinical documentation export.</li>
+            <li>Role-based access for staff.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. Expected Impact</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Clinical impact</h3>
+          <ul>
+            <li>Fewer insertion attempts and lower pain scores.</li>
+            <li>Early detection of infiltration and phlebitis.</li>
+            <li>Reduced nurse workload through automation.</li>
+            <li>Improved documentation for audit and quality improvement.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Innovation impact</h3>
+          <ul>
+            <li>First locally designed IV assist device in Kenya.</li>
+            <li>Proof of embedded systems solutions for local health needs.</li>
+            <li>Open-source firmware foundation for community innovation.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Market opportunity</h3>
+          <ul>
+            <li>Global IV devices market above USD 2B by 2028.</li>
+            <li>Over 8,000 healthcare facilities in Kenya.</li>
+            <li>Affordable local manufacturing for rapid adoption.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. Project Timeline and Milestones</h2>
+      <div class="timeline">
+        <div class="milestone">
+          <strong>Phase 1 - Design (Month 1 to 2)</strong>
+          <span>Complete schematics, component sourcing, and firmware architecture.</span>
+        </div>
+        <div class="milestone">
+          <strong>Phase 2 - Prototype (Month 3 to 4)</strong>
+          <span>Functional hardware prototype with sensing operational.</span>
+        </div>
+        <div class="milestone">
+          <strong>Phase 3 - Firmware (Month 5 to 6)</strong>
+          <span>Complete embedded firmware with BLE communication.</span>
+        </div>
+        <div class="milestone">
+          <strong>Phase 4 - App (Month 7 to 8)</strong>
+          <span>Nurse mobile app with live data and push notifications.</span>
+        </div>
+        <div class="milestone">
+          <strong>Phase 5 - Testing (Month 9 to 10)</strong>
+          <span>Bench testing, safety validation, and nurse feedback.</span>
+        </div>
+        <div class="milestone">
+          <strong>Phase 6 - Showcase (Month 11 to 12)</strong>
+          <span>Demo-ready device, documentation, and grant applications.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>9. Budget Estimate</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Estimated cost (KES)</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Electronic components</td>
+            <td>15,000</td>
+            <td>ESP32, sensors, display, motors</td>
+          </tr>
+          <tr>
+            <td>PCB fabrication and assembly</td>
+            <td>8,000</td>
+            <td>Local PCB fab</td>
+          </tr>
+          <tr>
+            <td>Enclosure and wearable housing</td>
+            <td>5,000</td>
+            <td>3D printed</td>
+          </tr>
+          <tr>
+            <td>Battery and power management</td>
+            <td>4,000</td>
+            <td>Safety critical</td>
+          </tr>
+          <tr>
+            <td>Software tools and cloud hosting</td>
+            <td>6,000</td>
+            <td>AWS free tier plus extras</td>
+          </tr>
+          <tr>
+            <td><strong>Total estimated budget</strong></td>
+            <td><strong>38,000</strong></td>
+            <td>Approx USD 295</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>10. About the Developer</h2>
+      <p>This project is developed by a fullstack software engineer currently completing an Embedded Systems program at Gearbox Academy, Nairobi. The developer brings a unique interdisciplinary profile to this work:</p>
+      <ul>
+        <li>Fullstack software engineering experience in React, Node.js, and cloud systems.</li>
+        <li>Embedded systems training in microcontroller programming and sensor integration.</li>
+        <li>Accepted into medical school with a long-term goal in neurosurgery.</li>
+        <li>Active interest in open-source medical device communities.</li>
+      </ul>
+      <p>This combination of software engineering, embedded hardware skills, and clinical insight positions the developer to design, build, and validate the Smart IV Assist device from first principles.</p>
+    </section>
+
+    <section class="section">
+      <h2>11. Future Vision</h2>
+      <ul>
+        <li>Clinical validation study with a Nairobi teaching hospital.</li>
+        <li>Regulatory submission to PPB and KEBS for medical device certification.</li>
+        <li>Grant applications to regional and global innovation funds.</li>
+        <li>Iteration toward a manufacturable device priced below imports.</li>
+        <li>Expansion into broader patient monitoring use cases.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>12. Conclusion</h2>
+      <p>The Smart IV Assist and Monitoring Device addresses a real and globally relevant clinical problem with an embedded systems solution. It demonstrates practical application of Gearbox Academy skills while laying the groundwork for a meaningful health-tech venture.</p>
+      <p>This proposal is submitted for showcase and as the foundation for future grant and startup funding applications. The developer is committed to advancing this concept from design to a market-ready product.</p>
+    </section>
+
+    <section class="section">
+      <h2>Contact</h2>
+      <p><strong>Dennis Kidake</strong></p>
+      <p>Level V bachelor of medicine and surgery University of Nairobi</p>
+      <p>Embedded Systems Graduate - Gearbox Academy</p>
+      <p>Fullstack Software developer</p>
+      <p>Email:denniskidake76@gmail.com | GitHub: github.com/Kids741 </p>
+    </section>
+
+    <footer class="footer">
+      <p>Smart IV Assist and Monitoring Device - Project Proposal</p>
+    </footer>
+  </main>
+</body>
+</html>
